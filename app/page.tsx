@@ -3,33 +3,44 @@
 import { useState } from 'react';
 import { products } from '@/data/products';
 import ProductCard from '@/componentes/productcard';
+import Navbar from '@/componentes/Navbar';
+import CartModal from '@/componentes/CartModal';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas');
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Obtener lista única de categorías disponibles
   const categories = ['Todas', ...Array.from(new Set(products.map((p) => p.category)))];
 
   // Filtrar productos según búsqueda y categoría
   const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'Todas' || product.category === selectedCategory;
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === 'Todas' || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
   return (
-    <main className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Barra de Navegación con Ícono de Carrito */}
+      <Navbar onOpenCart={() => setIsCartOpen(true)} />
+
+      {/* Modal/Sidebar del Carrito */}
+      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         {/* Encabezado */}
         <header className="mb-8 border-b pb-6 border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-              E-Commerce Store
+              Catálogo de Productos
             </h1>
             <p className="mt-1 text-sm text-gray-500">
-              Explora nuestro catálogo interactivo.
+              Selecciona tus artículos y agrégalos al carrito de compras.
             </p>
           </div>
           <div className="bg-blue-50 text-blue-700 font-semibold px-4 py-2 rounded-lg text-sm border border-blue-200 self-start md:self-auto">
@@ -91,7 +102,7 @@ export default function Home() {
             </button>
           </div>
         )}
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
