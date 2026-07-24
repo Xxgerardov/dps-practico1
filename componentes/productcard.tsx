@@ -1,17 +1,14 @@
 'use client';
 
-import Image from 'next/image';
 import { Product } from '@/types/product';
+import { useCart } from '@/context/CartContext';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const handleAddToCart = () => {
-    // Más adelante vincularemos este evento con la lógica global del carrito
-    alert(`¡${product.name} agregado al carrito!`);
-  };
+  const { addToCart } = useCart();
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between hover:shadow-lg transition-shadow duration-300">
@@ -48,8 +45,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <button
-          onClick={handleAddToCart}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+          onClick={() => addToCart(product)}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 active:scale-95 transform"
         >
           Agregar al Carrito
         </button>
