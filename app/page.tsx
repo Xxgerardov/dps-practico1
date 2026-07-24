@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { products } from '@/data/products';
-import ProductCard from '@/componentes/productcard';
+import ProductCard from '@/componentes/ProductCard';
 import Navbar from '@/componentes/Navbar';
 import CartModal from '@/componentes/CartModal';
 
@@ -26,14 +26,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Barra de Navegación con Ícono de Carrito */}
       <Navbar onOpenCart={() => setIsCartOpen(true)} />
-
-      {/* Modal/Sidebar del Carrito */}
       <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
       <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        {/* Encabezado */}
         <header className="mb-8 border-b pb-6 border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
@@ -48,9 +44,8 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Barra de Búsqueda y Filtros */}
+        {/* Buscador y Filtros */}
         <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center">
-          {/* Campo de Búsqueda */}
           <div className="w-full sm:w-80">
             <input
               type="text"
@@ -61,7 +56,6 @@ export default function Home() {
             />
           </div>
 
-          {/* Botones de Categorías */}
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             {categories.map((cat) => (
               <button
@@ -79,7 +73,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Cuadrícula de Productos / Mensaje de sin resultados */}
+        {/* Grid de Productos */}
         {filteredProducts.length > 0 ? (
           <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (

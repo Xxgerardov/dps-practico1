@@ -8,110 +8,90 @@ interface CartModalProps {
 }
 
 export default function CartModal({ isOpen, onClose }: CartModalProps) {
-  const { cart, removeFromCart, updateQuantity, clearCart, totalPrice, totalItems } = useCart();
+  const { cart, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black/50 backdrop-blur-sm flex justify-end transition-opacity">
-      <div className="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between p-6 overflow-y-auto">
-        {/* Cabecera */}
-        <div>
-          <div className="flex justify-between items-center border-b pb-4 border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800">
-              Carrito de Compras ({totalItems})
-            </h2>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 p-1 rounded-lg text-lg font-bold"
-            >
-              ✕
-            </button>
-          </div>
-
-          {/* Lista de Ítems */}
-          <div className="mt-6 space-y-4 max-h-[60vh] overflow-y-auto pr-1">
-            {cart.length === 0 ? (
-              <p className="text-center text-gray-500 py-8">
-                El carrito está vacío 🛒
-              </p>
-            ) : (
-              cart.map(({ product, quantity }) => (
-                <div
-                  key={product.id}
-                  className="flex items-center justify-between border-b pb-4 border-gray-100 gap-3"
-                >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-16 h-16 object-cover rounded-lg bg-gray-100"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-gray-800 truncate">
-                      {product.name}
-                    </h4>
-                    <p className="text-xs text-gray-500">
-                      ${product.price.toFixed(2)} c/u
-                    </p>
-
-                    {/* Controles de cantidad */}
-                    <div className="flex items-center gap-2 mt-2">
-                      <button
-                        onClick={() => updateQuantity(product.id, quantity - 1)}
-                        className="w-6 h-6 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded font-bold text-xs"
-                      >
-                        -
-                      </button>
-                      <span className="text-xs font-semibold text-gray-800">
-                        {quantity}
-                      </span>
-                      <button
-                        onClick={() => updateQuantity(product.id, quantity + 1)}
-                        className="w-6 h-6 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded font-bold text-xs"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-gray-900">
-                      ${(product.price * quantity).toFixed(2)}
-                    </p>
-                    <button
-                      onClick={() => removeFromCart(product.id)}
-                      className="text-xs text-red-500 hover:underline mt-1"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+        <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+          <h2 className="text-xl font-bold text-gray-800">Carrito de Compras</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 font-bold text-xl p-1"
+          >
+            ✕
+          </button>
         </div>
 
-        {/* Pie del Carrito con Totales */}
+        <div className="my-4 max-h-80 overflow-y-auto divide-y divide-gray-100">
+          {cart.length === 0 ? (
+            <p className="text-center py-8 text-gray-500 font-medium">
+              El carrito está vacío.
+            </p>
+          ) : (
+            cart.map((item) => (
+              <div key={item.id} className="py-3 flex items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h4 className="font-semibold text-gray-800 text-sm">{item.name}</h4>
+                  <p className="text-gray-500 text-xs">
+                    ${(item.price ?? 0).toFixed(2)} c/u
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="w-7 h-7 bg-gray-100 hover:bg-gray-200 rounded flex items-center justify-center text-sm font-bold text-gray-700"
+                  >
+                    -
+                  </button>
+                  <span className="text-sm font-semibold w-6 text-center">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="w-7 h-7 bg-gray-100 hover:bg-gray-200 rounded flex items-center justify-center text-sm font-bold text-gray-700"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="text-red-500 hover:text-red-700 text-sm font-medium ml-2"
+                >
+                  Eliminar
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+
         {cart.length > 0 && (
-          <div className="border-t pt-4 border-gray-200 space-y-3">
-            <div className="flex justify-between text-base font-bold text-gray-900">
-              <span>Total:</span>
-              <span className="text-xl text-blue-600">${totalPrice.toFixed(2)}</span>
+          <div className="pt-4 border-t border-gray-100">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-lg font-bold text-gray-800">Total:</span>
+              <span className="text-2xl font-extrabold text-blue-600">
+                ${(totalPrice ?? 0).toFixed(2)}
+              </span>
             </div>
 
-            <button
-              onClick={() => alert('¡Compra procesada con éxito!')}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors text-sm"
-            >
-              Finalizar Compra
-            </button>
-
-            <button
-              onClick={clearCart}
-              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium py-2 rounded-lg transition-colors text-xs"
-            >
-              Vaciar Carrito
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={clearCart}
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-xl transition-colors text-sm"
+              >
+                Vaciar
+              </button>
+              <button
+                onClick={() => alert('¡Compra procesada!')}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-xl transition-colors text-sm"
+              >
+                Finalizar Compra
+              </button>
+            </div>
           </div>
         )}
       </div>
