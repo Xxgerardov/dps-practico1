@@ -11,10 +11,16 @@ export default function Home() {
   const [category, setCategory] = useState('Todas');
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Lista de categorias sin duplicados
+
+
   const categories = ['Todas', ...Array.from(new Set(products.map((p) => p.category)))];
 
-  // Filtrar productos
+ 
+
+
+
+
+
   const filteredProducts = products.filter((p) => {
     const matchSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -32,19 +38,26 @@ export default function Home() {
       <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <header className="mb-8 border-b pb-6 border-gray-800 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-3xl font-extrabold text-gray-500 tracking-tight">
               Catalogo de Productos
             </h1>
             <p className="mt-1 text-sm text-gray-400">
               Selecciona tus articulos y agregalos al carrito de compras.
             </p>
           </div>
+
+
+
           <div className="bg-purple-950 text-purple-300 font-semibold px-4 py-2 rounded-lg text-sm border border-purple-800 self-start md:self-auto">
             {filteredProducts.length} de {products.length} productos
           </div>
         </header>
 
-        {/* Buscador y Filtros */}
+
+
+
+
+
         <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center">
           <div className="w-full sm:w-80">
             <input
@@ -56,7 +69,10 @@ export default function Home() {
             />
           </div>
 
-          {/* Botones de Filtrado en tonos Morados */}
+
+
+
+
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             {categories.map((cat) => (
               <button
@@ -73,6 +89,12 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+
+
+
+
+
 
         {filteredProducts.length > 0 ? (
           <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

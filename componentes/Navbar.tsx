@@ -18,7 +18,7 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <span className="text-xl font-bold text-white tracking-tight">
-              MiTienda
+              GerTienda
             </span>
           </div>
 
@@ -29,7 +29,7 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
             <span>Carrito</span>
             {totalItems > 0 && (
               <span className="bg-white text-purple-700 text-xs font-bold px-2 py-0.5 rounded-full">
-                
+
                 {totalItems}
               </span>
             )}

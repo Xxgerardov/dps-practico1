@@ -50,7 +50,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             alt={product.name}
             className="w-full h-full object-cover"
           />
-          <span className="absolute top-2 right-2 bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+          <span className="absolute top-2 right-2 bg-purple-700 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
             {product.category}
           </span>
         </div>
@@ -86,7 +86,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
 
 
-        <button
+   <button
           onClick={handleAdd}
           disabled={noStock}
           className={`w-full font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 transform active:scale-95 ${
@@ -94,7 +94,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed active:scale-100'
               : added
               ? 'bg-green-600 text-white'
-              : 'bg-blue-600 hover:bg-blue-700 text-white'
+              : 'bg-purple-700 hover:bg-purple-800 text-white'
           }`}
         >
           {noStock ? 'Agotado' : added ? 'Listo' : 'Agregar al carrito'}
