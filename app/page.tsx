@@ -11,10 +11,9 @@ export default function Home() {
   const [category, setCategory] = useState('Todas');
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Lista de categorias sin duplicados
+ 
   const categories = ['Todas', ...Array.from(new Set(products.map((p) => p.category)))];
-
-  // Filtrar productos
+ 
   const filteredProducts = products.filter((p) => {
     const matchSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -25,14 +24,14 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar onOpenCart={() => setIsCartOpen(true)} />
+
+<div className="min-h-screen bg-neutral-950 text-white flex flex-col">      <Navbar onOpenCart={() => setIsCartOpen(true)} />
       <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
       <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <header className="mb-8 border-b pb-6 border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+          <h1 className="text-3xl font-extrabold text-white tracking-tight">
               Catalogo de Productos
             </h1>
             <p className="mt-1 text-sm text-gray-500">
@@ -44,16 +43,16 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Buscador y Filtros */}
+        
         <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center">
           <div className="w-full sm:w-80">
-            <input
-              type="text"
-              placeholder="Buscar producto..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 text-sm"
-            />
+          <input
+  type="text"
+  placeholder="Buscar producto..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="w-full px-4 py-2 border border-gray-700 bg-gray-900 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm placeholder-gray-400"
+/>
           </div>
 
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">
@@ -73,7 +72,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Lista de productos */}
+       
         {filteredProducts.length > 0 ? (
           <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((prod) => (

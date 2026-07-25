@@ -28,7 +28,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between hover:shadow-lg transition-shadow duration-300 relative">
       
-      {/* Toast de confirmacion */}
+   
       {added && (
         <div className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg z-10 transition-all duration-300 animate-bounce">
           Agregado al carrito
