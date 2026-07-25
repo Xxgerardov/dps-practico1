@@ -18,14 +18,45 @@ interface CartContextType {
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+const CART_STORAGE_KEY = 'dps_shopping_cart';
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // 1. Cargar el carrito guardado en localStorage al iniciar
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
+    } catch (error) {
+      console.error('Error al cargar el carrito desde localStorage:', error);
+    } finally {
+      setIsHydrated(true);
+    }
+  }, []);
+
+  // 2. Guardar el carrito en localStorage cada vez que cambie
+  useEffect(() => {
+    if (isHydrated) {
+      try {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+      } catch (error) {
+        console.error('Error al guardar el carrito en localStorage:', error);
+      }
+    }
+  }, [cart, isHydrated]);
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
+
       if (existingItem) {
+        if (existingItem.quantity >= product.stock) {
+          return prevCart;
+        }
         return prevCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
@@ -45,10 +76,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       removeFromCart(id);
       return;
     }
+
     setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === id ? { ...item, quantity } : item
-      )
+      prevCart.map((item) => {
+        if (item.id === id) {
+          const newQuantity = Math.min(quantity, item.stock);
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      })
     );
   };
 
