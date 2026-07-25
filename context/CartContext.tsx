@@ -18,57 +18,48 @@ interface CartContextType {
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
-const CART_STORAGE_KEY = 'dps_shopping_cart';
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [isHydrated, setIsHydrated] = useState(false);
 
-  // 1. Cargar el carrito guardado en localStorage al iniciar
+  // Recuperar carrito guardado al cargar el componente
   useEffect(() => {
-    try {
-      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
-      if (savedCart) {
-        setCart(JSON.parse(savedCart));
+    const localData = localStorage.getItem('cart');
+    if (localData) {
+      try {
+        setCart(JSON.parse(localData));
+      } catch (err) {
+        console.log('Error parseando carrito local', err);
       }
-    } catch (error) {
-      console.error('Error al cargar el carrito desde localStorage:', error);
-    } finally {
-      setIsHydrated(true);
     }
   }, []);
 
-  // 2. Guardar el carrito en localStorage cada vez que cambie
+  // Sincronizar con localStorage si hay cambios
   useEffect(() => {
-    if (isHydrated) {
-      try {
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-      } catch (error) {
-        console.error('Error al guardar el carrito en localStorage:', error);
-      }
-    }
-  }, [cart, isHydrated]);
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product: Product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
+    setCart((prev) => {
+      const itemExist = prev.find((i) => i.id === product.id);
 
-      if (existingItem) {
-        if (existingItem.quantity >= product.stock) {
-          return prevCart;
-        }
-        return prevCart.map((item) =>
+      if (itemExist) {
+        // Validar stock antes de sumar
+        if (itemExist.quantity >= product.stock) return prev;
+
+        return prev.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prevCart, { ...product, quantity: 1 }];
+
+      return [...prev, { ...product, quantity: 1 }];
     });
   };
 
   const removeFromCart = (id: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+    setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
   const updateQuantity = (id: string, quantity: number) => {
@@ -77,24 +68,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    setCart((prevCart) =>
-      prevCart.map((item) => {
+    setCart((prev) =>
+      prev.map((item) => {
         if (item.id === id) {
-          const newQuantity = Math.min(quantity, item.stock);
-          return { ...item, quantity: newQuantity };
+          const validQty = quantity > item.stock ? item.stock : quantity;
+          return { ...item, quantity: validQty };
         }
         return item;
       })
     );
   };
 
-  const clearCart = () => {
-    setCart([]);
-  };
+  const clearCart = () => setCart([]);
 
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  // Totales
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   const totalPrice = cart.reduce(
-    (sum, item) => sum + (item.price ?? 0) * item.quantity,
+    (acc, item) => acc + (item.price || 0) * item.quantity,
     0
   );
 
@@ -118,7 +108,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart debe ser usado dentro de un CartProvider');
+    throw new Error('useCart debe usarse dentro de CartProvider');
   }
   return context;
 }

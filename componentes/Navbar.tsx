@@ -23,7 +23,7 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
             onClick={onOpenCart}
             className="relative bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center gap-2"
           >
-            <span>🛒 Carrito</span>
+            <span>Carrito</span>
             {totalItems > 0 && (
               <span className="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                 {totalItems}

@@ -7,21 +7,21 @@ import Navbar from '@/componentes/Navbar';
 import CartModal from '@/componentes/CartModal';
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Todas');
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('Todas');
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Obtener lista única de categorías disponibles
+  // Lista de categorias sin duplicados
   const categories = ['Todas', ...Array.from(new Set(products.map((p) => p.category)))];
 
-  // Filtrar productos según búsqueda y categoría
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === 'Todas' || product.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+  // Filtrar productos
+  const filteredProducts = products.filter((p) => {
+    const matchSearch =
+      p.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.description.toLowerCase().includes(search.toLowerCase());
+    const matchCat = category === 'Todas' || p.category === category;
+
+    return matchSearch && matchCat;
   });
 
   return (
@@ -33,10 +33,10 @@ export default function Home() {
         <header className="mb-8 border-b pb-6 border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-              Catálogo de Productos
+              Catalogo de Productos
             </h1>
             <p className="mt-1 text-sm text-gray-500">
-              Selecciona tus artículos y agrégalos al carrito de compras.
+              Selecciona tus articulos y agregalos al carrito de compras.
             </p>
           </div>
           <div className="bg-blue-50 text-blue-700 font-semibold px-4 py-2 rounded-lg text-sm border border-blue-200 self-start md:self-auto">
@@ -50,9 +50,9 @@ export default function Home() {
             <input
               type="text"
               placeholder="Buscar producto..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 text-sm"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 text-sm"
             />
           </div>
 
@@ -60,9 +60,9 @@ export default function Home() {
             {categories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => setCategory(cat)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  selectedCategory === cat
+                  category === cat
                     ? 'bg-blue-600 text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
                 }`}
@@ -73,22 +73,22 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Grid de Productos */}
+        {/* Lista de productos */}
         {filteredProducts.length > 0 ? (
           <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {filteredProducts.map((prod) => (
+              <ProductCard key={prod.id} product={prod} />
             ))}
           </section>
         ) : (
           <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
             <p className="text-lg text-gray-500 font-medium">
-              No se encontraron productos que coincidan con tu búsqueda.
+              No se encontraron productos para tu busqueda.
             </p>
             <button
               onClick={() => {
-                setSearchTerm('');
-                setSelectedCategory('Todas');
+                setSearch('');
+                setCategory('Todas');
               }}
               className="mt-4 text-sm text-blue-600 hover:underline font-semibold"
             >

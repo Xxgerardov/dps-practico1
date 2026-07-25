@@ -16,19 +16,19 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
         <div className="flex justify-between items-center pb-4 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-gray-800">Carrito de Compras</h2>
+          <h2 className="text-xl font-bold text-gray-800">Carrito de compras</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 font-bold text-xl p-1"
           >
-            ✕
+            X
           </button>
         </div>
 
         <div className="my-4 max-h-80 overflow-y-auto divide-y divide-gray-100">
           {cart.length === 0 ? (
             <p className="text-center py-8 text-gray-500 font-medium">
-              El carrito está vacío.
+              El carrito esta vacio.
             </p>
           ) : (
             cart.map((item) => (
@@ -36,7 +36,7 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
                 <div className="flex-1">
                   <h4 className="font-semibold text-gray-800 text-sm">{item.name}</h4>
                   <p className="text-gray-500 text-xs">
-                    ${(item.price ?? 0).toFixed(2)} c/u
+                    ${(item.price || 0).toFixed(2)} c/u
                   </p>
                 </div>
 
@@ -74,7 +74,7 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
             <div className="flex justify-between items-center mb-4">
               <span className="text-lg font-bold text-gray-800">Total:</span>
               <span className="text-2xl font-extrabold text-blue-600">
-                ${(totalPrice ?? 0).toFixed(2)}
+                ${(totalPrice || 0).toFixed(2)}
               </span>
             </div>
 
@@ -86,10 +86,10 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
                 Vaciar
               </button>
               <button
-                onClick={() => alert('¡Compra procesada!')}
+                onClick={() => alert('Compra procesada')}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-xl transition-colors text-sm"
               >
-                Finalizar Compra
+                Finalizar compra
               </button>
             </div>
           </div>
