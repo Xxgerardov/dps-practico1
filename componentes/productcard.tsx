@@ -4,15 +4,17 @@ import React, { useState } from 'react';
 import { Product } from '@/types/product';
 import { useCart } from '@/context/CartContext';
 
+
 interface ProductCardProps {
   product: Product;
 }
+
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart, cart } = useCart();
   const [added, setAdded] = useState(false);
 
-  // Calcular stock disponible
+
   const inCart = cart.find((i) => i.id === product.id)?.quantity || 0;
   const stockAvailable = product.stock - inCart;
   const noStock = stockAvailable <= 0;
@@ -25,6 +27,9 @@ export default function ProductCard({ product }: ProductCardProps) {
     setTimeout(() => setAdded(false), 1200);
   };
 
+
+
+
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between hover:shadow-lg transition-shadow duration-300 relative">
       
@@ -34,6 +39,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           Agregado al carrito
         </div>
       )}
+
+
+
 
       <div>
         <div className="relative h-48 w-full bg-gray-100">
@@ -47,6 +55,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
         </div>
 
+
+
         <div className="p-4">
           <h3 className="text-lg font-bold text-gray-800 line-clamp-1">
             {product.name}
@@ -56,6 +66,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           </p>
         </div>
       </div>
+
+
 
       <div className="p-4 pt-0">
         <div className="flex items-center justify-between my-3">
@@ -70,6 +82,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             {noStock ? 'Sin stock' : `Disponibles: ${stockAvailable}`}
           </span>
         </div>
+
+
+
 
         <button
           onClick={handleAdd}

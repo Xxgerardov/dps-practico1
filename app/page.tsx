@@ -11,9 +11,10 @@ export default function Home() {
   const [category, setCategory] = useState('Todas');
   const [isCartOpen, setIsCartOpen] = useState(false);
 
- 
+  // Lista de categorias sin duplicados
   const categories = ['Todas', ...Array.from(new Set(products.map((p) => p.category)))];
- 
+
+  // Filtrar productos
   const filteredProducts = products.filter((p) => {
     const matchSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -24,46 +25,47 @@ export default function Home() {
   });
 
   return (
-
-<div className="min-h-screen bg-neutral-950 text-white flex flex-col">      <Navbar onOpenCart={() => setIsCartOpen(true)} />
+    <div className="min-h-screen bg-neutral-950 text-white flex flex-col">
+      <Navbar onOpenCart={() => setIsCartOpen(true)} />
       <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
       <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        <header className="mb-8 border-b pb-6 border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <header className="mb-8 border-b pb-6 border-gray-800 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-3xl font-extrabold text-white tracking-tight">
               Catalogo de Productos
             </h1>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-400">
               Selecciona tus articulos y agregalos al carrito de compras.
             </p>
           </div>
-          <div className="bg-blue-50 text-blue-700 font-semibold px-4 py-2 rounded-lg text-sm border border-blue-200 self-start md:self-auto">
+          <div className="bg-purple-950 text-purple-300 font-semibold px-4 py-2 rounded-lg text-sm border border-purple-800 self-start md:self-auto">
             {filteredProducts.length} de {products.length} productos
           </div>
         </header>
 
-        
+        {/* Buscador y Filtros */}
         <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center">
           <div className="w-full sm:w-80">
-          <input
-  type="text"
-  placeholder="Buscar producto..."
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-  className="w-full px-4 py-2 border border-gray-700 bg-gray-900 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm placeholder-gray-400"
-/>
+            <input
+              type="text"
+              placeholder="Buscar producto..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full px-4 py-2 border border-purple-900 bg-gray-900 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm placeholder-gray-400"
+            />
           </div>
 
+          {/* Botones de Filtrado en tonos Morados */}
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
                   category === cat
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    ? 'bg-purple-600 text-white border-purple-500 shadow-md'
+                    : 'bg-purple-950 text-purple-200 hover:bg-purple-900 border-purple-800/60'
                 }`}
               >
                 {cat}
@@ -72,7 +74,6 @@ export default function Home() {
           </div>
         </div>
 
-       
         {filteredProducts.length > 0 ? (
           <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((prod) => (
@@ -80,8 +81,8 @@ export default function Home() {
             ))}
           </section>
         ) : (
-          <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
-            <p className="text-lg text-gray-500 font-medium">
+          <div className="text-center py-16 bg-gray-900 rounded-xl border border-purple-900">
+            <p className="text-lg text-gray-400 font-medium">
               No se encontraron productos para tu busqueda.
             </p>
             <button
@@ -89,7 +90,7 @@ export default function Home() {
                 setSearch('');
                 setCategory('Todas');
               }}
-              className="mt-4 text-sm text-blue-600 hover:underline font-semibold"
+              className="mt-4 text-sm text-purple-400 hover:underline font-semibold"
             >
               Limpiar filtros
             </button>

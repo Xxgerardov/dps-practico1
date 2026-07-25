@@ -7,8 +7,12 @@ interface CartModalProps {
   onClose: () => void;
 }
 
+
+
+
 export default function CartModal({ isOpen, onClose }: CartModalProps) {
   const { cart, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
+
 
   if (!isOpen) return null;
 
@@ -16,14 +20,18 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
         <div className="flex justify-between items-center pb-4 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-gray-800">Carrito de compras</h2>
-          <button
+    <h2 className="text-xl font-bold text-gray-800">Carrito de compras</h2>
+        <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 font-bold text-xl p-1"
           >
             X
           </button>
         </div>
+
+
+
+
 
         <div className="my-4 max-h-80 overflow-y-auto divide-y divide-gray-100">
           {cart.length === 0 ? (

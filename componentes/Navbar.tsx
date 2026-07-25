@@ -9,6 +9,9 @@ interface NavbarProps {
 export default function Navbar({ onOpenCart }: NavbarProps) {
   const { totalItems } = useCart();
 
+
+
+
   return (
     <nav className="bg-purple-700 border-b border-purple-800 sticky top-0 z-40 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,6 +29,7 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
             <span>Carrito</span>
             {totalItems > 0 && (
               <span className="bg-white text-purple-700 text-xs font-bold px-2 py-0.5 rounded-full">
+                
                 {totalItems}
               </span>
             )}
