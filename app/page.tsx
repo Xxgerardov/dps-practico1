@@ -11,7 +11,8 @@ export default function Home() {
   const [cat, setCat] = useState('Todas');
   const [verCarrito, setVerCarrito] = useState(false);
 
-  // Sacar categorias sin repetidas
+
+
   const categorias = ['Todas'];
   products.forEach(p => {
     if (!categorias.includes(p.category)) {
@@ -19,7 +20,7 @@ export default function Home() {
     }
   });
 
-  // Filtrar por texto y categoria
+
   const listaProds = products.filter(p => {
     const txt = buscar.toLowerCase();
     const coincideNombre = p.name.toLowerCase().includes(txt) || p.description.toLowerCase().includes(txt);

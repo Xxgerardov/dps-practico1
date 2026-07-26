@@ -12,7 +12,6 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
 
   if (!isOpen) return null;
 
-  // Funciones rapidas para sumar y restar
   const restar = (id: number, cant: number) => {
     updateQuantity(id, cant - 1);
   };

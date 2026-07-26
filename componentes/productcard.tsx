@@ -4,32 +4,40 @@ import React, { useState } from 'react';
 import { Product } from '@/types/product';
 import { useCart } from '@/context/CartContext';
 
-interface ProductCardProps {
+interface Props {
   product: Product;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product }: Props) {
   const { addToCart, cart } = useCart();
-  const [agregado, setAgregado] = useState(false);
+  const [listo, setListo] = useState(false);
  
-  const enCarrito = cart.find(x => x.id === product.id)?.quantity || 0;
+
+
+  
+  const enCarrito = cart.find(item => item.id === product.id)?.quantity || 0;
   const quedan = product.stock - enCarrito;
   const sinStock = quedan <= 0;
 
-  const agregar = () => {
+  function alAgregar() {
     if (sinStock) return;
 
     addToCart(product);
-    setAgregado(true);
+    setListo(true);
+
     setTimeout(() => {
-      setAgregado(false);
+      setListo(false);
     }, 1200);
-  };
+  }
+ 
+  let textoBoton = 'Agregar al carrito';
+  if (sinStock) textoBoton = 'Agotado';
+  else if (listo) textoBoton = 'Listo';
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between hover:shadow-lg transition-shadow duration-300 relative">
       
-      {agregado && (
+      {listo && (
         <div className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg z-10 transition-all duration-300 animate-bounce">
           Agregado al carrito
         </div>
@@ -72,17 +80,17 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <button
-          onClick={agregar}
+          onClick={alAgregar}
           disabled={sinStock}
           className={`w-full font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 transform active:scale-95 ${
             sinStock
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed active:scale-100'
-              : agregado
+              : listo
               ? 'bg-green-600 text-white'
               : 'bg-purple-700 hover:bg-purple-800 text-white'
           }`}
         >
-          {sinStock ? 'Agotado' : agregado ? 'Listo' : 'Agregar al carrito'}
+          {textoBoton}
         </button>
       </div>
     </div>
