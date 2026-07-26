@@ -16,7 +16,7 @@ export const products: Product[] = [
     description: 'Mouse inalambrico buena bateria2.',
     price: 39.99,
     category: 'Perifericos',
-    image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&q=80',
+    image: 'https://images.unsplash.com/photo-1628832307345-7404b47f1751?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW91c2UlMjBnYW1lcnxlbnwwfHwwfHx8MA%3D%3D',
     stock: 25,
   },
   {
@@ -88,7 +88,7 @@ export const products: Product[] = [
     description: 'Alfombrilla grande antideslizante.',
     price: 18.50,
     category: 'Perifericos',
-    image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=500&q=80',
+    image: 'https://images.unsplash.com/photo-1589401806207-2381455bce76?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bW91c2UlMjBwYWQlMjBnYW1lcnxlbnwwfHwwfHx8MA%3D%3D',
     stock: 40,
   },
   {
@@ -97,7 +97,7 @@ export const products: Product[] = [
     description: 'Soporte pc y otras cosas.',
     price: 25.00,
     category: 'Accesorios',
-    image: 'https://images.unsplash.com/photo-1616440347437-b1c73416efc2?w=500&q=80',
+    image: 'https://images.unsplash.com/photo-1698770531036-c627d35188f2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG1lc2F8ZW58MHx8MHx8fDA%3D',
     stock: 14,
   },
   {
@@ -115,7 +115,7 @@ export const products: Product[] = [
     description: 'Lampara para leer',
     price: 42.00,
     category: 'Accesorios',
-    image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&q=80',
+    image: 'https://images.unsplash.com/photo-1542728928-1413d1894ed1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFtcGFyYXMlMjBkZSUyMGxlY3R1cmF8ZW58MHx8MHx8fDA%3D',
     stock: 11,
   },
   {
@@ -124,7 +124,7 @@ export const products: Product[] = [
     description: 'Bocina de escritorio pequenas con sonido fuerte.',
     price: 49.99,
     category: 'Audio',
-    image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500&q=80',
+    image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGMlMjBib2NpbmF8ZW58MHx8MHx8fDA%3D',
     stock: 16,
   },
   {
@@ -133,7 +133,7 @@ export const products: Product[] = [
     description: 'Control de juegos con vibracion y bateria recargable.',
     price: 59.00,
     category: 'Perifericos',
-    image: 'https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=500&q=80',
+    image: 'https://images.unsplash.com/photo-1632312527375-bd5d5a0d3484?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFuZG8lMjB4Ym94fGVufDB8fDB8fHww',
     stock: 13,
   },
   {
@@ -151,7 +151,7 @@ export const products: Product[] = [
     description: '2 memorias RAM cada una de 8GB.',
     price: 68.00,
     category: 'Componentes',
-    image: 'https://images.unsplash.com/photo-1562976540-1502c2145186?w=500&q=80',
+    image: 'https://images.unsplash.com/photo-1562976540-1502c2145186?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8TUVNT1JJQVMlMjBSQU18ZW58MHx8MHx8fDA%3D',
     stock: 9,
   },
   {
