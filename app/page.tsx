@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { products } from '@/data/products';
-import ProductCard from '@/componentes/ProductCard';
+import ProductCart from '@/componentes/ProductCart';
 import Navbar from '@/componentes/Navbar';
 import CartModal from '@/componentes/CartModal';
 
@@ -86,7 +86,7 @@ export default function Home() {
         {listaProds.length > 0 ? (
           <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {listaProds.map(prod => (
-              <ProductCard key={prod.id} product={prod} />
+              <ProductCart key={prod.id} product={prod} />
             ))}
           </section>
         ) : (

@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { Product } from '@/types/product';
 import { useCart } from '@/context/CartContext';
 
-interface ProductCardProps {
+interface ProductCartProps {
   product: Product;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCart({ product }: ProductCartProps) {
   const { addToCart, cart } = useCart();
   const [listo, setListo] = useState(false);
 
