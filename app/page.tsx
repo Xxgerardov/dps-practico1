@@ -38,7 +38,7 @@ export default function Home() {
       <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <header className="mb-8 border-b pb-6 border-gray-800 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-extrabold text-gray-500 tracking-tight">
+            <h1 className="text-3xl font-extrabold text-gray-00 tracking-tight">
               Catalogo de Productos
             </h1>
             <p className="mt-1 text-sm text-gray-400">
