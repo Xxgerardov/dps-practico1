@@ -7,38 +7,41 @@ import Navbar from '@/componentes/Navbar';
 import CartModal from '@/componentes/CartModal';
 
 export default function Home() {
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('Todas');
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [buscar, setBuscar] = useState('');
+  const [cat, setCat] = useState('Todas');
+  const [verCarrito, setVerCarrito] = useState(false);
 
-
-
-  const categories = ['Todas', ...Array.from(new Set(products.map((p) => p.category)))];
-
- 
-
-
-
-
-
-  const filteredProducts = products.filter((p) => {
-    const matchSearch =
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.description.toLowerCase().includes(search.toLowerCase());
-    const matchCat = category === 'Todas' || p.category === category;
-
-    return matchSearch && matchCat;
+  // Sacar categorias sin repetidas
+  const categorias = ['Todas'];
+  products.forEach(p => {
+    if (!categorias.includes(p.category)) {
+      categorias.push(p.category);
+    }
   });
+
+  // Filtrar por texto y categoria
+  const listaProds = products.filter(p => {
+    const txt = buscar.toLowerCase();
+    const coincideNombre = p.name.toLowerCase().includes(txt) || p.description.toLowerCase().includes(txt);
+    const coincideCat = cat === 'Todas' || p.category === cat;
+
+    return coincideNombre && coincideCat;
+  });
+
+  const resetear = () => {
+    setBuscar('');
+    setCat('Todas');
+  };
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white flex flex-col">
-      <Navbar onOpenCart={() => setIsCartOpen(true)} />
-      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <Navbar onOpenCart={() => setVerCarrito(true)} />
+      <CartModal isOpen={verCarrito} onClose={() => setVerCarrito(false)} />
 
       <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <header className="mb-8 border-b pb-6 border-gray-800 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-extrabold text-gray-00 tracking-tight">
+            <h1 className="text-3xl font-extrabold text-gray-100 tracking-tight">
               Catalogo de Productos
             </h1>
             <p className="mt-1 text-sm text-gray-400">
@@ -46,59 +49,42 @@ export default function Home() {
             </p>
           </div>
 
-
-
           <div className="bg-purple-950 text-purple-300 font-semibold px-4 py-2 rounded-lg text-sm border border-purple-800 self-start md:self-auto">
-            {filteredProducts.length} de {products.length} productos
+            {listaProds.length} de {products.length} productos
           </div>
         </header>
-
-
-
-
-
 
         <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center">
           <div className="w-full sm:w-80">
             <input
               type="text"
               placeholder="Buscar producto..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={buscar}
+              onChange={e => setBuscar(e.target.value)}
               className="w-full px-4 py-2 border border-purple-900 bg-gray-900 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm placeholder-gray-400"
             />
           </div>
 
-
-
-
-
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">
-            {categories.map((cat) => (
+            {categorias.map(c => (
               <button
-                key={cat}
-                onClick={() => setCategory(cat)}
+                key={c}
+                onClick={() => setCat(c)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
-                  category === cat
+                  cat === c
                     ? 'bg-purple-600 text-white border-purple-500 shadow-md'
                     : 'bg-purple-950 text-purple-200 hover:bg-purple-900 border-purple-800/60'
                 }`}
               >
-                {cat}
+                {c}
               </button>
             ))}
           </div>
         </div>
 
-
-
-
-
-
-
-        {filteredProducts.length > 0 ? (
+        {listaProds.length > 0 ? (
           <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((prod) => (
+            {listaProds.map(prod => (
               <ProductCard key={prod.id} product={prod} />
             ))}
           </section>
@@ -108,10 +94,7 @@ export default function Home() {
               No se encontraron productos para tu busqueda.
             </p>
             <button
-              onClick={() => {
-                setSearch('');
-                setCategory('Todas');
-              }}
+              onClick={resetear}
               className="mt-4 text-sm text-purple-400 hover:underline font-semibold"
             >
               Limpiar filtros
