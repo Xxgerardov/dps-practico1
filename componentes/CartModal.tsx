@@ -12,11 +12,13 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
 
   if (!isOpen) return null;
 
-  const restar = (id: number, cant: number) => {
+  
+  
+  const restar = (id: string, cant: number) => {
     updateQuantity(id, cant - 1);
   };
 
-  const sumar = (id: number, cant: number) => {
+  const sumar = (id: string, cant: number) => {
     updateQuantity(id, cant + 1);
   };
 
