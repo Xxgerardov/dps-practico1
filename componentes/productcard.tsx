@@ -4,18 +4,17 @@ import React, { useState } from 'react';
 import { Product } from '@/types/product';
 import { useCart } from '@/context/CartContext';
 
-interface Props {
+interface ProductCardProps {
   product: Product;
 }
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart, cart } = useCart();
   const [listo, setListo] = useState(false);
- 
-
 
   
-  const enCarrito = cart.find(item => item.id === product.id)?.quantity || 0;
+  
+  const enCarrito = cart.find(x => x.id === product.id)?.quantity || 0;
   const quedan = product.stock - enCarrito;
   const sinStock = quedan <= 0;
 
@@ -29,7 +28,9 @@ export default function ProductCard({ product }: Props) {
       setListo(false);
     }, 1200);
   }
- 
+
+  
+  
   let textoBoton = 'Agregar al carrito';
   if (sinStock) textoBoton = 'Agotado';
   else if (listo) textoBoton = 'Listo';
