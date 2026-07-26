@@ -17,49 +17,45 @@ interface CartContextType {
   totalPrice: number;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [cargado, setCargado] = useState(false);
 
-  // Recuperar carrito guardado al cargar el componente
   useEffect(() => {
-    const localData = localStorage.getItem('cart');
-    if (localData) {
-      try {
-        setCart(JSON.parse(localData));
-      } catch (err) {
-        console.log('Error parseando carrito local', err);
-      }
+    try {
+      const data = localStorage.getItem('cart');
+      if (data) setCart(JSON.parse(data));
+    } catch (e) {
+      console.log('error al cargar');
     }
+    setCargado(true);
   }, []);
 
-  // Sincronizar con localStorage si hay cambios
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    if (cargado) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }, [cart, cargado]);
 
   const addToCart = (product: Product) => {
-    setCart((prev) => {
-      const itemExist = prev.find((i) => i.id === product.id);
+    setCart(c => {
+      const existe = c.find(x => x.id === product.id);
 
-      if (itemExist) {
-        // Validar stock antes de sumar
-        if (itemExist.quantity >= product.stock) return prev;
-
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+      if (existe) {
+        if (existe.quantity >= product.stock) return c;
+        return c.map(item =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
 
-      return [...prev, { ...product, quantity: 1 }];
+      return [...c, { ...product, quantity: 1 }];
     });
   };
 
   const removeFromCart = (id: string) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    setCart(c => c.filter(x => x.id !== id));
   };
 
   const updateQuantity = (id: string, quantity: number) => {
@@ -68,11 +64,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    setCart((prev) =>
-      prev.map((item) => {
+    setCart(c =>
+      c.map(item => {
         if (item.id === id) {
-          const validQty = quantity > item.stock ? item.stock : quantity;
-          return { ...item, quantity: validQty };
+          let cant = quantity;
+          if (cant > item.stock) cant = item.stock;
+          return { ...item, quantity: cant };
         }
         return item;
       })
@@ -81,12 +78,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = () => setCart([]);
 
-  // Totales
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-  const totalPrice = cart.reduce(
-    (acc, item) => acc + (item.price || 0) * item.quantity,
-    0
-  );
+  // sumar todo
+  const totalItems = cart.reduce((acc, x) => acc + x.quantity, 0);
+  const totalPrice = cart.reduce((acc, x) => acc + (x.price || 0) * x.quantity, 0);
 
   return (
     <CartContext.Provider
@@ -105,10 +99,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useCart() {
+export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart debe usarse dentro de CartProvider');
-  }
+  if (!context) throw new Error('useCart no esta en el provider');
   return context;
-}
+};
